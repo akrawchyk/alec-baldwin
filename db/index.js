@@ -1,10 +1,8 @@
 const fs = require('fs')
 const path = require('path')
+const util = require('util')
 const Sequelize = require('sequelize')
-const basename = path.basename(module.filename)
-const env = process.env.NODE_ENV || 'development'
 let db = null
-const modelsPath = 'models'
 
 module.exports = async function() {
   if (db) {
@@ -13,19 +11,26 @@ module.exports = async function() {
 
   const sequelize = new Sequelize(process.env.DATABASE_URL)
 
-  await sequelize
+  return await sequelize
     .authenticate()
-    .then(() => {
-      console.log('Connection has been established successfully.');
+    .then(async () => {
+      console.log('Connection has been established successfully.')
 
       db = {}
 
-      // XXX: model files finders
       // import db files
-      fs
-        .readdirSync(path.join(__dirname, modelsPath))
+      const modelsPath = 'models'
+      const basename = path.basename(module.filename)
+      const readdirAsync = util.promisify(fs.readdir)
+      const files = await readdirAsync(path.join(__dirname, modelsPath))
+
+      files
         .filter(file => {
-          return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js')
+          return (
+            file.indexOf('.') !== 0 &&
+            file !== basename &&
+            file.slice(-3) === '.js'
+          )
         })
         .forEach(file => {
           var model = sequelize.import(path.join(__dirname, modelsPath, file))
@@ -43,10 +48,10 @@ module.exports = async function() {
       db.Sequelize = Sequelize
 
       Object.freeze(db)
+
+      return db
     })
     .catch(err => {
       throw err
     })
-
-  return db
 }

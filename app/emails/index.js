@@ -12,7 +12,8 @@ const router = new Router()
     const body = ctx.request.body
     ctx.body = { data: body }
     // TODO validate email or throw 400
-    await ctx.db.email.findOrCreate({where: { email: body.email }})
+    await ctx.db.email
+      .findOrCreate({ where: { email: body.email } })
       .catch(err => {
         throw err
       })

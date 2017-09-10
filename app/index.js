@@ -5,18 +5,27 @@ const Koa = require('koa')
 const Router = require('koa-trie-router')
 const emails = require('./emails')
 
-module.exports = function(db) {
+module.exports = async function(db) {
   const app = new Koa()
   const router = new Router()
 
-  db().then(db => app.context.db = db)
+  app.context.db = await db()
 
-  app.use(cors({
-    origin: 'http://localhost:4200'
-  }))
+  app.use(
+    cors({
+      origin: ctx => {
+        // TODO config to coerce env vars to their types
+        // compare origin against ALLOWED_HOSTS
+        const origin = ctx.get('Origin')
+        const allowedHosts = process.env.ALLOWED_HOSTS.split(',')
+
+        if (allowedHosts.includes(origin)) {
+          return origin
+        }
+      },
+    })
+  )
   app.use(bodyParser())
-
-  // XXX: register models?
 
   if (process.env.NODE_ENV === 'development') {
     // x-response-time

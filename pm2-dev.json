@@ -7,6 +7,7 @@
       "NODE_ENV": "development",
       "PORT": 4000,
       "DEBUG": "koa*",
+      "ALLOWED_HOSTS": "http://localhost:4200",
       "DATABASE_URL": "postgres://andrew@localhost:5432/alecbaldwin"
     },
     "instances": 2,
