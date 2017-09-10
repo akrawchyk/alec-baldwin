@@ -1,3 +1,5 @@
 const app = require('./app')
+const db = require('./db')
 
-app.listen(process.env.PORT)
+// inject db
+app(db).listen(process.env.PORT)

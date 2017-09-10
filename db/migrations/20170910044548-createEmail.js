@@ -1,14 +1,11 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('emails', {
-      id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
+      email: Sequelize.STRING,
+
+      // timestamps
       createdAt: Sequelize.DATE,
-      uuid: Sequelize.UUID,
-      email: Sequelize.STRING
+      updatedAt: Sequelize.DATE,
     })
   },
 
