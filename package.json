@@ -4,18 +4,17 @@
   "description": "j",
   "main": "index.js",
   "scripts": {
-    "dev": "pm2 start index.js --watch",
+    "dev": "DEBUG=koa* pm2 start index.js --watch --no-daemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-es2017": "^6.24.1",
-    "babel-register": "^6.26.0",
-    "bluebird": "^3.5.0",
     "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-mount": "^3.0.0",
+    "koa-trie-router": "^2.1.6",
+    "pg": "^7.3.0",
     "pm2": "^2.6.1"
   }
 }
