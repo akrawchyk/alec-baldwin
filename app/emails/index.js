@@ -1,5 +1,8 @@
 const Koa = require('koa')
 const Router = require('koa-trie-router')
+const Sequelize = require('sequelize')
+
+const sequelize = new Sequelize(process.env.DATABASE_URL)
 
 const router = new Router()
   .get('/', ctx => {
@@ -16,7 +19,7 @@ const router = new Router()
     //    }).then(res => res.json().then(json => console.log(json)))
 
     const body = ctx.request.body
-    ctx.body = body
+    ctx.body = { data: body }
   })
 
 // show email by name/hash?

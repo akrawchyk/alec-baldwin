@@ -1,0 +1,14 @@
+{
+  "apps": [{
+    "name": "alec-baldwin",
+    "script": "index.js",
+    "watch": "false",
+    "env": {
+      "NODE_ENV": "production",
+      "PORT": 4000
+    },
+    "instances": 2,
+    "exec_mode": "cluster_mode",
+    "autorestart": true
+  }]
+}

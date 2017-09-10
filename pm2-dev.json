@@ -1,0 +1,16 @@
+{
+  "apps": [{
+    "name": "alec-baldwin-DEV",
+    "script": "index.js",
+    "watch": "true",
+    "env": {
+      "NODE_ENV": "development",
+      "PORT": 4000,
+      "DEBUG": "koa*",
+      "DATABASE_URL": "postgres://andrew@localhost:5432/alecbaldwin"
+    },
+    "instances": 2,
+    "exec_mode": "cluster_mode",
+    "autorestart": true
+  }]
+}

@@ -1,12 +1,17 @@
-const Koa = require('koa')
-const mount = require('koa-mount')
 const bodyParser = require('koa-bodyparser')
+const cors = require('kcors')
+const mount = require('koa-mount')
+const Koa = require('koa')
 const Router = require('koa-trie-router')
+const db = require('../models')
 const emails = require('./emails')
 
 const app = new Koa()
 const router = new Router()
 
+app.use(cors({
+  origin: 'http://localhost:4200'
+}))
 app.use(bodyParser())
 
 // x-response-time
@@ -32,4 +37,4 @@ router.get('/', ctx => {
 app.use(mount('/', router.middleware()))
 app.use(mount('/emails', emails.middleware()))
 
-app.listen(3000)
+module.exports = app
