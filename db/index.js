@@ -4,12 +4,12 @@ const util = require('util')
 const Sequelize = require('sequelize')
 let db = null
 
-module.exports = async function() {
+module.exports = async function(databaseUrl) {
   if (db) {
     return db
   }
 
-  const sequelize = new Sequelize(process.env.DATABASE_URL)
+  const sequelize = new Sequelize(databaseUrl)
 
   return await sequelize
     .authenticate()
