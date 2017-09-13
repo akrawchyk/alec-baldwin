@@ -10,6 +10,7 @@ module.exports = {
       status: {
         type: Sequelize.ENUM,
         values: ['UNPROCESSED', 'PROCESSED', 'ERRORED'],
+        defaultValue: 'UNPROCESSED',
       },
 
       // timestamps

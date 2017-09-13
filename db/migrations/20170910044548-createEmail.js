@@ -7,7 +7,10 @@ module.exports = {
         autoIncrement: true,
       },
 
-      email: Sequelize.STRING,
+      address: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
 
       // timestamps
       createdAt: Sequelize.DATE,

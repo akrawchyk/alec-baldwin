@@ -2,21 +2,15 @@ const fs = require('fs')
 const path = require('path')
 const util = require('util')
 const Sequelize = require('sequelize')
-let db = null
 
 module.exports = async function(databaseUrl) {
-  if (db) {
-    return db
-  }
-
+  const db = {}
   const sequelize = new Sequelize(databaseUrl)
 
   return await sequelize
     .authenticate()
     .then(async () => {
       console.log('Connection has been established successfully.')
-
-      db = {}
 
       // import db files
       const modelsPath = 'models'

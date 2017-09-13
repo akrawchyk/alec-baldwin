@@ -5,18 +5,21 @@ const ERRORED = 'ERRORED'
 const STATUSES = {
   UNPROCESSED,
   PROCESSED,
-  ERRORED
+  ERRORED,
 }
 
 module.exports = function(sequelize, DataTypes) {
-
   const Transaction = sequelize.define('transaction', {
     id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    status: DataTypes.ENUM(...Object.keys(STATUSES)),
+    status: {
+      type: DataTypes.ENUM,
+      values: Object.keys(STATUSES),
+      defaultValue: UNPROCESSED,
+    },
   })
 
   Transaction.STATUSES = STATUSES

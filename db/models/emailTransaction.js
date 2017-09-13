@@ -1,8 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
-
   const EmailTransaction = sequelize.define('emailTransaction', {
     id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
@@ -10,27 +9,27 @@ module.exports = function(sequelize, DataTypes) {
     data: DataTypes.JSON,
 
     emailId: {
-      type: sequelize.INTEGER
+      type: DataTypes.INTEGER,
       references: {
         model: 'email',
         key: 'id',
-        deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-      }
+      },
+      allowNull: false,
     },
 
     transactionId: {
-      type: sequelize.INTEGER
+      type: DataTypes.INTEGER,
       references: {
         model: 'transaction',
         key: 'id',
-        deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE
-      }
-    }
+      },
+      allowNull: false,
+    },
   })
 
   EmailTransaction.associate = function(db) {
-    EmailTransaction.belongsTo(db.Transaction)
-    EmailTransaction.belongsTo(db.Email)
+    EmailTransaction.belongsTo(db.transaction)
+    EmailTransaction.belongsTo(db.email)
   }
 
   return EmailTransaction

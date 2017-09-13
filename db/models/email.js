@@ -1,16 +1,21 @@
 module.exports = function(sequelize, DataTypes) {
-
   const Email = sequelize.define('email', {
     id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    email: DataTypes.STRING,
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isEmail: true,
+      },
+    },
   })
 
   Email.associate = function(db) {
-    Email.hasMany(db.EmailTransaction)
+    Email.hasMany(db.emailTransaction)
   }
 
   return Email

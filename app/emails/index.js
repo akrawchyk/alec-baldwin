@@ -7,15 +7,34 @@ const router = new Router()
   })
   .post('/', async (ctx, next) => {
     const body = ctx.request.body
-    ctx.body = { data: body }
-    // TODO validate email or throw 400
-    await ctx.db.email
-      .findOrCreate({ where: { email: body.email } })
+    // email is validated on the model
+    const email = await ctx.db.email
+      .findOrCreate({ where: { address: body.emailAddress } })
+      .spread((email, created) => email)
       .catch(err => {
-        throw err
+        ctx.throw(400, 'Unexpected email')
       })
+
+    let data = body.data
+
+    try {
+      // ensure data is JSON formatted
+      data = JSON.parse(data)
+    } catch (err) {
+      // send 400 error
+      ctx.throw(400, 'Unexpected data')
+    }
+
+    ctx.body = { message: 'Success!' }
+
     await next()
-    // TODO send email
+
+    const transaction = await ctx.db.transaction.create()
+    await ctx.db.emailTransaction.create({
+      transactionId: transaction.get('id'),
+      emailId: email.get('id'),
+      data,
+    })
   })
 
 // show email by name/hash?

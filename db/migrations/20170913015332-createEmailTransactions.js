@@ -11,6 +11,7 @@ module.exports = {
 
       emailId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'emails',
           key: 'id',
@@ -21,6 +22,7 @@ module.exports = {
 
       transactionId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'transactions',
           key: 'id',
