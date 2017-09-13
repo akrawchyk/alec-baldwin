@@ -25,7 +25,7 @@ module.exports = async function(beforeHooks) {
   )
   app.use(bodyParser())
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV !== 'production') {
     // x-response-time
     app.use(async (ctx, next) => {
       const start = Date.now()

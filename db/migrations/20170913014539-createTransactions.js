@@ -1,13 +1,16 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('emails', {
+    return queryInterface.createTable('transactions', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
 
-      email: Sequelize.STRING,
+      status: {
+        type: Sequelize.ENUM,
+        values: ['UNPROCESSED', 'PROCESSED', 'ERRORED'],
+      },
 
       // timestamps
       createdAt: Sequelize.DATE,
@@ -16,6 +19,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('emails')
+    return queryInterface.dropTable('transactions')
   },
 }

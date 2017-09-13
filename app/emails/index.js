@@ -1,8 +1,5 @@
 const Koa = require('koa')
 const Router = require('koa-trie-router')
-const Sequelize = require('sequelize')
-
-const sequelize = new Sequelize(process.env.DATABASE_URL)
 
 const router = new Router()
   .get('/', ctx => {
