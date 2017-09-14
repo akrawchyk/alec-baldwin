@@ -1,4 +1,4 @@
-const app = require('./app')
+const app = require('./app/index.js') // differentiate from app.json
 const db = require('./db')
 
 app(async function beforeHooks(instance) {
