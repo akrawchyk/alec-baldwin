@@ -1,9 +1,8 @@
 {
   "development": {
-    "username": "andrew",
-    "password": null,
-    "database": "alecbaldwin",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+    "url": "postgres://andrew@localhost:5432/alecbaldwin"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL"
   }
 }
