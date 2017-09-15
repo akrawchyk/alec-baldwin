@@ -2,6 +2,7 @@ const bodyParser = require('koa-bodyparser')
 const cors = require('kcors')
 const mount = require('koa-mount')
 const helmet = require('koa-helmet')
+const enforceHttps = require('koa-sslify')
 const Koa = require('koa')
 const Router = require('koa-trie-router')
 const emails = require('./emails')
@@ -23,6 +24,12 @@ module.exports = async function(beforeHooks) {
     },
   }
 
+  const sslifyConfig = {
+    trustProtoHeader: true,
+    specCompliantDisallow: true
+  }
+
+  app.use(enforceHttps(sslifyConfig))
   app.use(helmet())
   app.use(cors(corsConfig))
   app.use(bodyParser())

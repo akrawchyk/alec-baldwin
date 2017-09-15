@@ -35,6 +35,8 @@ const router = new Router()
       emailId: email.get('id'),
       data,
     })
+
+    // TODO async process emailTransaction
   })
 
 // show email by name/hash?
