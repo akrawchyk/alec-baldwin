@@ -1,6 +1,7 @@
 const bodyParser = require('koa-bodyparser')
 const cors = require('kcors')
 const mount = require('koa-mount')
+const helmet = require('koa-helmet')
 const Koa = require('koa')
 const Router = require('koa-trie-router')
 const emails = require('./emails')
@@ -11,18 +12,19 @@ module.exports = async function(beforeHooks) {
 
   await beforeHooks(app)
 
-  app.use(
-    cors({
-      origin: ctx => {
-        // compare origin against ALLOWED_HOSTS
-        const origin = ctx.get('Origin')
+  const corsConfig = {
+    origin: ctx => {
+      // compare origin against ALLOWED_HOSTS
+      const origin = ctx.get('Origin')
 
-        if (ctx.ALLOWED_HOSTS.includes(origin)) {
-          return origin
-        }
-      },
-    })
-  )
+      if (ctx.ALLOWED_HOSTS.includes(origin)) {
+        return origin
+      }
+    },
+  }
+
+  app.use(helmet())
+  app.use(cors(corsConfig))
   app.use(bodyParser())
 
   if (process.env.NODE_ENV !== 'production') {

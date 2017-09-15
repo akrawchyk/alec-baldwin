@@ -2,16 +2,17 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('emailTransactions', {
       id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
+        allowNull: false,
         autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
       },
 
       data: Sequelize.JSON,
 
       emailId: {
-        type: Sequelize.INTEGER,
         allowNull: false,
+        type: Sequelize.INTEGER,
         references: {
           model: 'emails',
           key: 'id',
@@ -21,8 +22,8 @@ module.exports = {
       },
 
       transactionId: {
-        type: Sequelize.INTEGER,
         allowNull: false,
+        type: Sequelize.INTEGER,
         references: {
           model: 'transactions',
           key: 'id',
@@ -32,8 +33,14 @@ module.exports = {
       },
 
       // timestamps
-      createdAt: Sequelize.DATE,
-      updatedAt: Sequelize.DATE,
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
     })
   },
 

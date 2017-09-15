@@ -2,19 +2,26 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('emails', {
       id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
+        allowNull: false,
         autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
       },
 
       address: {
+        allowNull: false,
         type: Sequelize.STRING,
-        allowNull: false
       },
 
       // timestamps
-      createdAt: Sequelize.DATE,
-      updatedAt: Sequelize.DATE,
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
     })
   },
 

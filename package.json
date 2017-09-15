@@ -4,6 +4,10 @@
   "description": "j",
   "main": "index.js",
   "scripts": {
+    "db:migrate": "sequelize db:migrate --models-path db --migrations-path db/migrations --config db/config.json",
+    "db:migrate:undo:all": "if test \"$NODE_ENV\" = \"development\"; then sequelize db:migrate:undo:all --migrations-path db/migrations --config db/config.json; else echo \"db:migrate:undo:all can only be run in development!\"; fi" ,
+    "migration:generate": "sequelize migration:generate --migrations-path db/migrations",
+    "model:create": "sequelize model:create --models-path db --migrations-path db/migrations",
     "dev": "pm2 start pm2-dev.json --no-daemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,6 +17,7 @@
     "kcors": "^2.2.1",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
+    "koa-helmet": "^3.2.0",
     "koa-mount": "^3.0.0",
     "koa-trie-router": "^2.1.6",
     "pg": "^6.4.1",

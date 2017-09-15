@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  const Email = sequelize.define('email', {
+  const email = sequelize.define('email', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -12,11 +12,13 @@ module.exports = function(sequelize, DataTypes) {
         isEmail: true,
       },
     },
+  }, {
+    classMethods: {
+      associate: function(models) {
+        email.hasMany(models.emailTransaction)
+      }
+    }
   })
 
-  Email.associate = function(db) {
-    Email.hasMany(db.emailTransaction)
-  }
-
-  return Email
+  return email
 }

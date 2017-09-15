@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  const EmailTransaction = sequelize.define('emailTransaction', {
+  const emailTransaction = sequelize.define('emailTransaction', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -25,12 +25,14 @@ module.exports = function(sequelize, DataTypes) {
       },
       allowNull: false,
     },
+  }, {
+    classMethods: {
+      associate: function(models) {
+        emailTransaction.belongsTo(models.transaction)
+        emailTransaction.belongsTo(models.email)
+      }
+    }
   })
 
-  EmailTransaction.associate = function(db) {
-    EmailTransaction.belongsTo(db.transaction)
-    EmailTransaction.belongsTo(db.email)
-  }
-
-  return EmailTransaction
+  return emailTransaction
 }

@@ -9,7 +9,7 @@ const STATUSES = {
 }
 
 module.exports = function(sequelize, DataTypes) {
-  const Transaction = sequelize.define('transaction', {
+  const transaction = sequelize.define('transaction', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -22,7 +22,8 @@ module.exports = function(sequelize, DataTypes) {
     },
   })
 
-  Transaction.STATUSES = STATUSES
+  // FIXME is there a prototype method for this or something?
+  transaction.STATUSES = STATUSES
 
-  return Transaction
+  return transaction
 }
