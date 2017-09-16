@@ -7,7 +7,7 @@ app(async function beforeHooks(instance) {
   // instance.context.config = config
   // XXX temporary poc/workaround for config,
   // consider issues with exposing secret config on the ctx
-  instance.context.ALLOWED_HOSTS = process.env.ALLOWED_HOSTS
+  instance.context.ALLOWED_CORS_ORIGINS = process.env.ALLOWED_CORS_ORIGINS
     .split(',')
     .map(h => h.trim())
 

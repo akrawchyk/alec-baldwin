@@ -20,14 +20,12 @@ const router = new Router()
     try {
       // ensure data is JSON formatted
       data = JSON.parse(data)
+
+      // TODO validate rp10 seconds
     } catch (err) {
       // send 400 error
       ctx.throw(400, 'Unexpected data')
     }
-
-    ctx.body = { message: 'Success!' }
-
-    await next()
 
     const transaction = await ctx.db.transaction.create()
     await ctx.db.emailTransaction.create({
@@ -36,7 +34,22 @@ const router = new Router()
       data,
     })
 
-    // TODO async process emailTransaction
+    const sendEmail = require('./workers/smtp.js')
+
+    try {
+      const result = await sendEmail()
+      transaction.set('status', ctx.db.transaction.STATUSES.PROCESSED)
+      ctx.body = { message: 'Success!' }
+    } catch(err) {
+      console.error(err)
+      transaction.set('status', ctx.db.transaction.STATUSES.ERRORED)
+      await transaction.save()
+      ctx.throw(500, 'Unexpected error occurred')
+    }
+
+    await next()
+
+    await transaction.save()
   })
 
 // show email by name/hash?

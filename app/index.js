@@ -15,21 +15,24 @@ module.exports = async function(beforeHooks) {
 
   const corsConfig = {
     origin: ctx => {
-      // compare origin against ALLOWED_HOSTS
+      // compare origin against ALLOWED_CORS_ORIGINS
       const origin = ctx.get('Origin')
 
-      if (ctx.ALLOWED_HOSTS.includes(origin)) {
+      if (ctx.ALLOWED_CORS_ORIGINS.includes(origin)) {
         return origin
       }
     },
   }
 
-  const sslifyConfig = {
-    trustProtoHeader: true,
-    specCompliantDisallow: true
+  if (process.env.NODE_ENV === 'production') {
+    const sslifyConfig = {
+      trustProtoHeader: true,
+      specCompliantDisallow: true,
+    }
+
+    app.use(enforceHttps(sslifyConfig))
   }
 
-  app.use(enforceHttps(sslifyConfig))
   app.use(helmet())
   app.use(cors(corsConfig))
   app.use(bodyParser())

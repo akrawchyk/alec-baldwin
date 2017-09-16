@@ -6,9 +6,13 @@
     "env": {
       "NODE_ENV": "development",
       "PORT": 4000,
-      "DEBUG": "koa*",
-      "ALLOWED_HOSTS": "http://localhost:4200",
-      "DATABASE_URL": "postgres://andrew@localhost:5432/alecbaldwin"
+      "DEBUG": "koa* sequelize* email-templates*",
+      "ALLOWED_CORS_ORIGINS": "http://localhost:4200",
+      "DATABASE_URL": "postgres://andrew@localhost:5432/alecbaldwin",
+      "SMTP_TRANSPORT": "",
+      "SMTP_USER": "",
+      "SMTP_PASSWORD": "",
+      "SMTP_ENVELOPE_FROM": "Andrew Krawchyk <akrawchyk@gmail.com>"
     },
     "instances": 2,
     "exec_mode": "cluster_mode",
