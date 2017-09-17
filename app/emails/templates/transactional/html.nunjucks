@@ -5,13 +5,13 @@
 <table width="100%" cellpadding="0" cellspacing="0">
   <tr>
     <td class="content-block">
-      Hello {{ email }},
-      {{ intro }}
+      Hello {{to}},
+      {{intro}}
     </td>
   </tr>
   <tr>
     <td class="content-block">
-      {{ body }}
+      {{body}}
     </td>
   </tr>
   <tr>
@@ -21,7 +21,7 @@
   </tr>
   <tr>
     <td class="content-block">
-      {{ outro }}
+      {{outro}}
     </td>
   </tr>
 </table>

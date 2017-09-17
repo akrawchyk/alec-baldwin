@@ -10,6 +10,12 @@ module.exports = {
 
       data: Sequelize.JSON,
 
+      displayHash: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+      },
+
       emailId: {
         allowNull: false,
         type: Sequelize.INTEGER,
@@ -35,12 +41,12 @@ module.exports = {
       // timestamps
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     })
   },
 

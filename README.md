@@ -58,6 +58,10 @@ You can also use the sequelize cli to [generate models](https://github.com/seque
 
 `npm run model:create -- --name <name> --attributes name:string,state:boolean,birth:date,age:integer`
 
+## Routes
+
+We use [koa-trie-router](https://github.com/koajs/trie-router) for routing.
+
 ## Emails
 
 We use [Nodemailer](https://nodemailer.com/about/) with SMTP transport to send emails. Using [nodemailer-wellknown](https://github.com/nodemailer/nodemailer-wellknown), we can

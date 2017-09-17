@@ -3,7 +3,7 @@ const EmailTemplate = require('email-templates').EmailTemplate
 const nodemailer = require('nodemailer')
 const wellknown = require('nodemailer-wellknown')
 
-module.exports = async function() {
+module.exports = async function(templateName, envelope, localData) {
   const templatesDir = path.resolve(__dirname, '../templates')
   const template = new EmailTemplate(path.join(templatesDir, 'transactional'))
 
@@ -11,21 +11,18 @@ module.exports = async function() {
   const settings = {
     views: path.join(templatesDir, 'transactional')
   }
-  // An example users object with formatted email function
+  // email config and data
   const locals = {
     settings,
 
-    email: 'akrawchyk@gmail.com',
-    title: 'Test email',
-    intro: 'This is your test email!',
-    body: 'Check out this sweet body content!',
-    outro: 'And even an outro!',
-    postscript: ''
+    ...envelope,
+    ...localData
   }
 
   // Send a single email
   const rendered = await template.render(locals)
 
+  // Prepare nodemailer transport object
   let transport
 
   if (process.env.SMTP_TRANSPORT === 'stream') {
@@ -35,21 +32,7 @@ module.exports = async function() {
       buffer: true
     })
 
-    const info = await transport.sendMail({
-      from: process.env.SMTP_ENVELOPE_FROM,
-      to: locals.email,
-      subject: locals.title,
-      html: rendered.html,
-      text: rendered.text
-    })
-
-    console.log(info.envelope)
-    console.log(info.messageId)
-    console.log(info.message.toString())
-
-    return info
   } else {
-    // Prepare nodemailer transport object
     transport = nodemailer.createTransport({
       service: process.env.SMTP_TRANSPORT,
       auth: {
@@ -57,17 +40,22 @@ module.exports = async function() {
         pass: process.env.SMTP_PASSWORD
       }
     })
-
-    const responseStatus = await transport.sendMail({
-      from: process.env.SMTP_ENVELOPE_FROM,
-      to: locals.email,
-      subject: locals.title,
-      html: rendered.html,
-      text: rendered.text
-    })
-
-    console.log(responseStatus)
-
-    return responseStatus
   }
+
+  const info = await transport.sendMail({
+    from: process.env.SMTP_ENVELOPE_FROM,
+    to: locals.to,
+    subject: locals.subject,
+    html: rendered.html,
+    text: rendered.text
+  })
+
+  console.log(info.envelope)
+  console.log(info.messageId)
+
+  if (process.env.SMTP_TRANSPORT === 'stream') {
+    console.log(info.message.toString())
+  }
+
+  return info
 }

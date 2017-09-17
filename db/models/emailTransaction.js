@@ -8,6 +8,12 @@ module.exports = function(sequelize, DataTypes) {
 
     data: DataTypes.JSON,
 
+    displayHash: {
+      allowNull: false,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
+
     emailId: {
       type: DataTypes.INTEGER,
       references: {
@@ -25,14 +31,12 @@ module.exports = function(sequelize, DataTypes) {
       },
       allowNull: false,
     },
-  }, {
-    classMethods: {
-      associate: function(models) {
-        emailTransaction.belongsTo(models.transaction)
-        emailTransaction.belongsTo(models.email)
-      }
-    }
   })
+
+  emailTransaction.associate = function(models) {
+    emailTransaction.belongsTo(models.transaction)
+    emailTransaction.belongsTo(models.email)
+  }
 
   return emailTransaction
 }

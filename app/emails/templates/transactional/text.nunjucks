@@ -1,5 +1,6 @@
-{{ intro }}
+Hello, {{to}}
+{{intro}}
 
-{{ body }}
+{{body}}
 
-{{ outro }}
+{{outro}}

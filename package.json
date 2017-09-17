@@ -15,6 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "email-templates": "^2.7.1",
+    "hashids": "^1.1.1",
     "kcors": "^2.2.1",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",

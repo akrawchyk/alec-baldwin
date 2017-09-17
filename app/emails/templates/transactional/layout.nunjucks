@@ -3,8 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>{{title}}</title>
-    <link href="styles.css" media="all" rel="stylesheet" type="text/css" />
+    <title>{{subject}}</title>
   </head>
 
   <body itemscope itemtype="http://schema.org/EmailMessage">
@@ -28,7 +27,12 @@
               <table width="100%">
                 <tr>
                   <td class="aligncenter content-block">
-                    Follow <a href="http://twitter.com/mail_gun">@Mail_Gun</a> on Twitter.
+                    <!-- TODO how to make this generic? Need to allow HTML -->
+                    <p>RP10 powered by Strive</p>
+                    <p><a href="https://www.striveswim.com">www.striveswim.com</a></p>
+                    <p>Use Seconds Pro to run the attached interval timer files.</p>
+
+                    <p><a href="{{permalink}}">View this in your browser.</a></p>
                   </td>
                 </tr>
               </table>

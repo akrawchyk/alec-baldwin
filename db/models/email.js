@@ -12,13 +12,11 @@ module.exports = function(sequelize, DataTypes) {
         isEmail: true,
       },
     },
-  }, {
-    classMethods: {
-      associate: function(models) {
-        email.hasMany(models.emailTransaction)
-      }
-    }
   })
+
+  email.associate = function(models) {
+    email.hasMany(models.emailTransaction)
+  }
 
   return email
 }
