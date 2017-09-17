@@ -1,8 +1,10 @@
+const path = require('path')
 const bodyParser = require('koa-bodyparser')
 const cors = require('kcors')
 const mount = require('koa-mount')
 const helmet = require('koa-helmet')
 const enforceHttps = require('koa-sslify')
+const error = require('koa-error')
 const Koa = require('koa')
 const Router = require('koa-trie-router')
 const emails = require('./emails')
@@ -24,7 +26,7 @@ module.exports = async function(beforeHooks) {
     },
   }
 
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV == 'production') {
     const sslifyConfig = {
       trustProtoHeader: true,
       specCompliantDisallow: true,
@@ -33,11 +35,15 @@ module.exports = async function(beforeHooks) {
     app.use(enforceHttps(sslifyConfig))
   }
 
+  app.use(error({
+    engine: 'nunjucks',
+    template: path.join(__dirname, '../templates/error.nunjucks')
+  }))
   app.use(helmet())
   app.use(cors(corsConfig))
   app.use(bodyParser())
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV != 'production') {
     // x-response-time
     app.use(async (ctx, next) => {
       const start = Date.now()

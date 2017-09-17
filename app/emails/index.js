@@ -89,7 +89,7 @@ const router = new Router()
 
     // TODO encapsulate this in a function to share with smtp worker
     // generate email and display
-    const templatesDir = path.resolve(__dirname, 'templates')
+    const templatesDir = path.resolve(__dirname, '../../templates/emails')
     const template = new EmailTemplate(path.join(templatesDir, 'transactional'))
 
     // nunjucks config

@@ -4,7 +4,7 @@ const nodemailer = require('nodemailer')
 const wellknown = require('nodemailer-wellknown')
 
 module.exports = async function(templateName, envelope, localData) {
-  const templatesDir = path.resolve(__dirname, '../templates')
+  const templatesDir = path.resolve(__dirname, '../../../templates/emails')
   const template = new EmailTemplate(path.join(templatesDir, 'transactional'))
 
   // nunjucks config
