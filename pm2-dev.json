@@ -10,9 +10,10 @@
       "SECRET_KEY": "the-quick-brown-fox-jumps-over-the-lazy-dog",
       "ALLOWED_CORS_ORIGINS": "http://localhost:4200",
       "DATABASE_URL": "postgres://andrew@localhost:5432/alecbaldwin",
-      "SMTP_TRANSPORT": "stream",
-      "SMTP_USER": "",
-      "SMTP_PASSWORD": "",
+      "SITE_DOMAIN": "localhost:4000",
+      "SMTP_TRANSPORT": "sendgrid",
+      "SMTP_USER": "apikey",
+      "SMTP_PASSWORD": "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",
       "SMTP_ENVELOPE_FROM": "Andrew Krawchyk <akrawchyk@gmail.com>"
     },
     "instances": 2,

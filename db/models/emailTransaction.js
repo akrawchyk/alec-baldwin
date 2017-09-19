@@ -1,9 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
   const emailTransaction = sequelize.define('emailTransaction', {
     id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+      type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true,
     },
 
     data: DataTypes.JSON,

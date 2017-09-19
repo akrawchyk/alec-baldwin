@@ -2,6 +2,33 @@ const Koa = require('koa')
 const Router = require('koa-trie-router')
 const path = require('path')
 const EmailTemplate = require('email-templates').EmailTemplate
+const sendEmail = require('./workers/smtp.js')
+
+async function getEmailEnvelope(templateName, toSubject, localData) {
+  const templatesDir = path.resolve(__dirname, '../../templates/emails')
+  const template = new EmailTemplate(path.join(templatesDir, 'transactional'))
+
+  // nunjucks config
+  const settings = {
+    views: path.join(templatesDir, 'transactional'),
+  }
+  // email config and data
+  const locals = {
+    settings,
+
+    ...toSubject,
+    ...localData,
+  }
+
+  const rendered = await template.render(locals)
+
+  return {
+    to: toSubject.to,
+    subject: toSubject.subject,
+    html: rendered.html,
+    text: rendered.text,
+  }
+}
 
 const router = new Router()
   .get('/', ctx => {
@@ -24,7 +51,11 @@ const router = new Router()
       // ensure data is JSON formatted
       data = JSON.parse(data)
 
-      // TODO validate rp10 seconds
+      data.forEach(d => {
+        if (!d.name || !d.seconds) {
+          throw new TypeError('Unexpected data format')
+        }
+      })
     } catch (err) {
       // send 400 error
       ctx.throw(400, 'Unexpected data')
@@ -40,27 +71,39 @@ const router = new Router()
       })
       .then(emailTxn => emailTxn.get({ plain: true }))
 
-    const sendEmail = require('./workers/smtp.js')
-
     try {
-      const result = await sendEmail(
+      const emailContent = {
+        // XXX
+        intro: body.emailIntro,
+        body: body.emailBody,
+        // XXX
+        permalink: `https://${process.env.SITE_DOMAIN}/emails/show/${emailTransaction.displayHash}`,
+      }
+
+      const envelope = await getEmailEnvelope(
         'transactional',
         {
           to: email.address,
           subject: "Today's Swim: RP10",
         },
-        {
-          intro: 'This is your test email!',
-          body: 'Check out this sweet body content!',
-          permalink: `https://localhost:4000/emails/show/${emailTransaction.displayHash}`,
-          outro: 'And even an outro!',
-        }
+        emailContent
       )
+
+      const attachments = data.map(d => {
+        return {
+          filename: d.name,
+          content: JSON.stringify(d.seconds),
+          contentType: 'application/octet-stream',
+        }
+      })
+
+      const result = await sendEmail({ ...envelope, attachments })
       transaction.set('status', ctx.db.transaction.STATUSES.PROCESSED)
       ctx.body = { message: 'Success!' }
     } catch (err) {
       console.error(err)
       transaction.set('status', ctx.db.transaction.STATUSES.ERRORED)
+      ctx.throw(500, 'Transaction failed')
     }
 
     await next()
@@ -70,11 +113,10 @@ const router = new Router()
   .get('/show/:displayHash', async function(ctx, next) {
     const displayHash = ctx.params.displayHash
 
-    // TODO get seconds data to format
+    // TODO how to get seconds attachments to render?
     const emailTransaction = await ctx.db.emailTransaction
       .findOne({
         where: { displayHash },
-        attributes: ['data'],
         include: ['email'],
       })
       .then(emailTxn => {
@@ -85,30 +127,19 @@ const router = new Router()
         ctx.throw(404, 'Email not found')
       })
 
-    console.log(emailTransaction)
+    const envelope = await getEmailEnvelope(
+      'transactional',
+      {
+        to: emailTransaction.email.address,
+        subject: "Today's Swim: RP10",
+      },
+      {
+        intro: 'This is your test email!',
+        body: 'Check out this sweet body content!',
+      }
+    )
 
-    // TODO encapsulate this in a function to share with smtp worker
-    // generate email and display
-    const templatesDir = path.resolve(__dirname, '../../templates/emails')
-    const template = new EmailTemplate(path.join(templatesDir, 'transactional'))
-
-    // nunjucks config
-    const settings = {
-      views: path.join(templatesDir, 'transactional'),
-    }
-    // An example users object with formatted email function
-    const locals = {
-      settings,
-
-      to: emailTransaction.email.address,
-      subject: "Today's Swim: RP10",
-      intro: 'This is your test email!',
-      body: 'Check out this sweet body content!',
-      permalink: `https://localhost:4000/emails/${emailTransaction.displayHash}`,
-      outro: 'And even an outro!',
-    }
-
-    ctx.body = await template.render(locals).then(rendered => rendered.html)
+    ctx.body = envelope.html
 
     await next()
   })

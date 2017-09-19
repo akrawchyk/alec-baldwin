@@ -10,7 +10,7 @@ module.exports = async function(databaseUrl) {
   return await sequelize
     .authenticate()
     .then(async () => {
-      console.log('Connection has been established successfully.')
+      console.log('sequelize: Connection has been established successfully.')
 
       // import db files
       const modelsPath = 'models'

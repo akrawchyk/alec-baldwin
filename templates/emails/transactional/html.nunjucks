@@ -5,8 +5,7 @@
 <table width="100%" cellpadding="0" cellspacing="0">
   <tr>
     <td class="content-block">
-      Hello {{to}},
-      {{intro}}
+      <b>{{intro}}</b>
     </td>
   </tr>
   <tr>
@@ -15,14 +14,16 @@
     </td>
   </tr>
   <tr>
-    <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
+    <td class="content-block aligncenter" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
       <a href="https://www.striveswim.com" class="btn-primary" itemprop="url">Call To Action</a>
     </td>
   </tr>
+  {% if outro %}
   <tr>
     <td class="content-block">
       {{outro}}
     </td>
   </tr>
+  {% endif %}
 </table>
 {% endblock %}

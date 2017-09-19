@@ -1,3 +1,5 @@
+$brand-primary: #0e5a64;
+
 /* -------------------------------------
     GLOBAL
     A very basic CSS reset
@@ -143,8 +145,8 @@ a {
 .btn-primary {
   text-decoration: none;
   color: #FFF;
-  background-color: #348eda;
-  border: solid #348eda;
+  background-color: $brand-primary;
+  border: solid $brand-primary;
   border-width: 10px 20px;
   line-height: 2em;
   /* 2em * 14px = 28px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
