@@ -1,5 +1,4 @@
-const path = require('path')
-const EmailTemplate = require('email-templates').EmailTemplate
+const uuid = require('uuid')
 const nodemailer = require('nodemailer')
 const wellknown = require('nodemailer-wellknown')
 
@@ -22,15 +21,8 @@ if (process.env.SMTP_TRANSPORT === 'stream') {
   })
 }
 
-module.exports = async function(envelope) {
-  if (!envelope.to || !envelope.subject || !envelope.html || !envelope.text) {
-    throw new TypeError('Unexpected envelope')
-  }
-
-  const info = await transport.sendMail({
-    from: process.env.SMTP_ENVELOPE_FROM,
-    ...envelope
-  })
+async function sendEmail(envelope) {
+  const info = await transport.sendMail(envelope)
 
   console.log(info.envelope)
   console.log(info.messageId)
@@ -41,3 +33,5 @@ module.exports = async function(envelope) {
 
   return info
 }
+
+module.exports = sendEmail

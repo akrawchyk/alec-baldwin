@@ -36,17 +36,22 @@
                       <a href="https://www.striveswim.com/rp10">RP10</a> powered by <a href="https://www.striveswim.com">Strive</a>
                     </p>
                     <p>
+                      Use the <a href="http://www.runloop.com/seconds-pro">Seconds Pro</a> app to run the attached interval timer files.
+                    </p>
+                    <br/>
+                    <p>
                       <div class="aligncenter">
                         <img src="https://static1.squarespace.com/static/59023783c534a5889f21c2b1/t/592cce6dbe659440dba0b863/1493574476253/strive+logo+PERFECT+LINES+square+copy.png?format=100w" height="50" width="50" alt="Strive logo">
                       </div>
                       <a href="https://www.striveswim.com">www.striveswim.com</a>
                     </p>
-                    <br/>
-                    <br/>
-                    <p><a href="http://www.runloop.com/seconds-pro">Use Seconds Pro to run the attached interval timer files.</a></p>
                     {% if permalink %}
                     <br/>
-                    <p><a href="{{permalink}}">View this in your browser.</a></p>
+                    <br/>
+                    <br/>
+                    <p>
+                      <a href="{{permalink}}">View this in your browser.</a>
+                    </p>
                     {% endif %}
                   </td>
                 </tr>

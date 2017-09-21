@@ -15,7 +15,6 @@ app(async function beforeHooks(instance) {
   instance.context.db = await db(process.env.DATABASE_URL)
 
   // XXX register hooks on model actions http://docs.sequelizejs.com/manual/tutorial/hooks.html
-
 }).then(instance => {
   instance.listen(process.env.PORT)
   console.log(`Listening on port ${process.env.PORT}`)
