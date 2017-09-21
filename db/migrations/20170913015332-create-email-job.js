@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('emailTransactions', {
+    return queryInterface.createTable('emailJobs', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,6 +9,11 @@ module.exports = {
       },
 
       data: Sequelize.JSON,
+
+      template: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
 
       displayHash: {
         allowNull: false,
@@ -27,11 +32,11 @@ module.exports = {
         onDelete: 'cascade',
       },
 
-      transactionId: {
+      jobId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'transactions',
+          model: 'jobs',
           key: 'id',
         },
         onUpdate: 'cascade',
@@ -51,6 +56,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    queryInterface.dropTable('emailTransactions')
+    queryInterface.dropTable('emailJobs')
   },
 }

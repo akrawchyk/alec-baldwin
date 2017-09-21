@@ -1,21 +1,28 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('transactions', {
+    return queryInterface.createTable('rp10s', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
 
-      status: {
+      data: {
+        type: Sequelize.JSON
+      },
+
+      emailId: {
         allowNull: false,
-        defaultValue: 'UNPROCESSED',
-        type: Sequelize.ENUM,
-        values: ['UNPROCESSED', 'PROCESSED', 'ERRORED'],
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'emails',
+          key: 'id',
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade',
       },
 
-      // timestamps
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -28,6 +35,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('transactions')
-  },
-}
+    return queryInterface.dropTable('rp10s')
+  }
+};

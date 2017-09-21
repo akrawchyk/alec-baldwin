@@ -5,17 +5,20 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true,
     },
+
     address: {
       type: DataTypes.STRING,
-      allowNull: false,
       validate: {
         isEmail: true,
       },
     },
+
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
   })
 
   email.associate = function(models) {
-    email.hasMany(models.emailTransaction)
+    email.hasMany(models.emailJob)
   }
 
   return email

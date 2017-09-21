@@ -23,6 +23,10 @@ if (process.env.SMTP_TRANSPORT === 'stream') {
 }
 
 module.exports = async function(envelope) {
+  if (!envelope.to || !envelope.subject || !envelope.html || !envelope.text) {
+    throw new TypeError('Unexpected envelope')
+  }
+
   const info = await transport.sendMail({
     from: process.env.SMTP_ENVELOPE_FROM,
     ...envelope

@@ -9,12 +9,13 @@ const STATUSES = {
 }
 
 module.exports = function(sequelize, DataTypes) {
-  const transaction = sequelize.define('transaction', {
+  const job = sequelize.define('job', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
+
     status: {
       type: DataTypes.ENUM,
       values: Object.keys(STATUSES),
@@ -22,8 +23,7 @@ module.exports = function(sequelize, DataTypes) {
     },
   })
 
-  // FIXME is there a prototype method for this or something?
-  transaction.STATUSES = STATUSES
+  job.STATUSES = STATUSES
 
-  return transaction
+  return job
 }

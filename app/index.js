@@ -7,7 +7,8 @@ const enforceHttps = require('koa-sslify')
 const error = require('koa-error')
 const Koa = require('koa')
 const Router = require('koa-trie-router')
-const emails = require('./emails')
+const emails = require('./emails/routes')
+const rp10s = require('./rp10s/routes')
 
 module.exports = async function(beforeHooks) {
   const app = new Koa()
@@ -67,6 +68,7 @@ module.exports = async function(beforeHooks) {
 
   app.use(mount('/', router.middleware()))
   app.use(mount('/emails', emails.middleware()))
+  app.use(mount('/rp10s', rp10s.middleware()))
 
   return app
 }
