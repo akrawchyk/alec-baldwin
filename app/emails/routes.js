@@ -18,14 +18,7 @@ const router = new Router()
         ctx.throw(404, 'Not found')
       })
 
-    const data = {
-      to: emailJob.email.address,
-      subject: "Today's Swim: RP10",
-      intro: 'This is your test email!',
-      body: 'Check out this sweet body content!',
-    }
-
-    const rendered = await renderEmailTemplate(emailJob.template, data)
+    const rendered = await renderEmailTemplate(emailJob.template, emailJob.data)
 
     ctx.body = rendered.html
 
