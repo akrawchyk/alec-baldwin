@@ -1,23 +1,26 @@
-const path = require('path')
-const EmailTemplate = require('email-templates').EmailTemplate
+function show() {
+  return async function(ctx, next) {
+    const displayHash = ctx.params.id
 
-async function renderEmailTemplate(templateName, localData) {
-  const templatesDir = path.resolve(__dirname, '../../templates/emails')
-  const template = new EmailTemplate(path.join(templatesDir, templateName))
+    // TODO how to get seconds attachments to render?
+    const emailJob = await ctx.db.emailJob
+      .findOne({
+        where: { displayHash },
+        include: ['email'],
+      })
+      .then(emailTxn => emailTxn.get({ plain: true }))
+      .catch(err => {
+        console.error(err)
+        ctx.throw(404, 'Not found')
+      })
 
-  // nunjucks config
-  const settings = {
-    views: path.join(templatesDir, templateName),
+    ctx.state.locals = emailJob.data
+
+    await next()
   }
-  // email config and data
-  const locals = {
-    settings,
-    ...localData,
-  }
-
-  return await template.render(locals)
 }
 
+
 module.exports = {
-  renderEmailTemplate
+  show
 }

@@ -66,7 +66,7 @@ module.exports = async function(beforeHooks) {
     ctx.body = 'Hello World'
   })
 
-  app.use(mount('/', router.middleware()))
+  app.use(mount(router.middleware()))
   app.use(mount('/emails', emails.middleware()))
   app.use(mount('/rp10s', rp10s.middleware()))
 
