@@ -48,7 +48,7 @@ const router = new Router().post('/new', ensureEmail, async (ctx, next) => {
 
     const data = {
       to: ctx.state.email.get('address'),
-      subject: "RP10: Today's swim",
+      subject: "Strive: Pace targets",
 
       intro: `All groups: ${rp10.repCount}x${rp10.todaysRepeats} (${rp10.restPerRepeat}s rest at ${rp10.percentGoalPaceToTrainToday}%)`,
 

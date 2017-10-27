@@ -54,7 +54,7 @@ function toSecondsProFormat(rp10, goalTimes) {
     return {
       name,
       intervals: intervals.map((repCount, jdx) => {
-        const iname = `rep ${jdx + 1} -> ${repCount}x${rp10.todaysRepeats} target: ${formatDurationDisplay(goalTime.target)}`
+        const iname = `rep ${jdx + 1} → ${repCount}x${rp10.todaysRepeats} target: ${formatDurationDisplay(goalTime.target)}`
         return {
           name: iname,
           duration: goalTime.interval,
